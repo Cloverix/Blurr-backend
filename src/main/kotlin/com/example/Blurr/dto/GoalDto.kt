@@ -1,0 +1,19 @@
+import java.math.BigDecimal
+import java.time.LocalTime
+import java.time.LocalDateTime
+
+data class GoalDto (
+    val id: Long,
+    val userId: Long,
+    val name: String,
+    val description: String?,
+    val status: String,
+    val defaultCurrency: String,
+    val targetAmount: BigDecimal,
+    val sendReminders: Boolean,
+    val singleAmount: BigDecimal?,
+    val reminderDays: Int?,
+    val reminderTime: LocalTime?,
+    val lastNotifSentAt: LocalDateTime?,
+    val transactionIds: List<Long>    
+)

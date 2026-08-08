@@ -12,40 +12,51 @@ class Goal (
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User,
+    var user: User,
 
     @Column(name = "name", nullable = false, length = 32)
-    val name: String,
+    var name: String,
 
     @Column(name = "description", length = 128)
-    val description: String?,
+    var description: String?,
 
     @Column(name = "status", nullable = false, length = 16)
-    val status: String = "active",
+    var status: String = "active",
 
     @Column(name = "default_currency", nullable = false, length = 3)
-    val defaultCurrency: String,
+    var defaultCurrency: String,
 
     @Column(name = "target_amount", nullable = false, precision = 14, scale = 2)
-    val targetAmount: BigDecimal,
+    var targetAmount: BigDecimal,
 
     @Column(name = "send_reminders", nullable = false)
-    val sendReminders: Boolean,
+    var sendReminders: Boolean,
 
     @Column(name = "single_amount", precision = 14, scale = 2)
-    val singleAmount: BigDecimal?,
+    var singleAmount: BigDecimal?,
 
     @Column(name = "reminder_days")
-    val reminderDays: Int?,
+    var reminderDays: Int?,
 
     @Column(name = "reminder_time")
-    val reminderTime: LocalTime?,
+    var reminderTime: LocalTime?,
 
     @Column(name = "last_notif_sent_at")
-    val lastNotifSentAt: LocalDateTime? = null
+    var lastNotifSentAt: LocalDateTime? = null
 ) {
     @OneToMany(mappedBy = "goal")
     val transactions: MutableList<Transaction> = mutableListOf();
+
+    override fun equals(other: Any?): Boolean {
+        if (other == this) return true;
+        if (other !is Goal) return false;
+        if (id == 0L || other.id == 0L) return false;
+        return other.id == id;
+    }
+
+    override fun hashCode(): Int {
+        return if (id == 0L) System.identityHashCode(this) else id.hashCode();
+    }
 
     constructor(): this(
         id = 0,
@@ -59,5 +70,5 @@ class Goal (
         reminderDays = null,
         reminderTime = null,
         lastNotifSentAt = null
-    )
+    );
 }

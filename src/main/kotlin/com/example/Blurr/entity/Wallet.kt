@@ -9,16 +9,32 @@ class Wallet (
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User,
+    var user: User,
 
     @Column(name = "name", nullable = false, length = 32)
-    val name: String,
+    var name: String,
 
     @Column(name = "default_currency", nullable = false, length = 3)
-    val defaultCurrency: String
+    var defaultCurrency: String
 ) {
     @OneToMany(mappedBy = "wallet")
     val transactions: MutableList<Transaction> = mutableListOf();
 
-    constructor(): this(0, User(), "", "")
+    override fun equals(other: Any?): Boolean {
+        if (other == this) return true;
+        if (other !is Wallet) return false;
+        if (id == 0L || other.id == 0L) return false;
+        return other.id == id;
+    }
+
+    override fun hashCode(): Int {
+        return if (id == 0L) System.identityHashCode(this) else id.hashCode();
+    }
+
+    constructor(): this(
+        id = 0,
+        user = User(),
+        name = "",
+        defaultCurrency = ""
+    );
 }
