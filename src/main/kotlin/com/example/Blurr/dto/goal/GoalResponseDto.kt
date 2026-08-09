@@ -2,7 +2,7 @@ import java.math.BigDecimal
 import java.time.LocalTime
 import java.time.LocalDateTime
 
-data class GoalDto (
+data class GoalResponseDto (
     val id: Long,
     val userId: Long,
     val name: String,

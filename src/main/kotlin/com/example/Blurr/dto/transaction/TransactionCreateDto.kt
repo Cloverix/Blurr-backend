@@ -1,8 +1,7 @@
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-data class TransactionDto (
-    val id: Long,
+data class TransactionCreateDto (
     val walletId: Long,
     val goalId: Long?,
     val type: String,
@@ -10,6 +9,5 @@ data class TransactionDto (
     val amount: BigDecimal,
     val currency: String,
     val description: String?,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?
+    val createdAt: LocalDateTime
 )

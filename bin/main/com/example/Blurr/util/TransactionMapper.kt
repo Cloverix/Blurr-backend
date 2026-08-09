@@ -1,8 +1,8 @@
 object TransactionMapper {
-    fun toDto(transaction: Transaction): TransactionDto {
+    fun toDto(transaction: Transaction): TransactionResponseDto {
         val walletId: Long = transaction.wallet.id;
         val goalId: Long? = transaction.goal?.id;
-        return TransactionDto(
+        return TransactionResponseDto(
             transaction.id,
             walletId,
             goalId,

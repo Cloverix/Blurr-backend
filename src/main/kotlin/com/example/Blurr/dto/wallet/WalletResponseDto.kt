@@ -1,4 +1,4 @@
-data class WalletDto (
+data class WalletResponseDto (
     val id: Long,
     val userId: Long,
     val name: String,
