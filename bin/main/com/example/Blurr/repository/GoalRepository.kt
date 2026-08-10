@@ -1,9 +1,11 @@
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface GoalRepository: JpaRepository<Goal, Long> {
-    fun findByNameContaining(name: String): List<Goal>;
+    fun findByUserId(userId: Long): List<Goal>
 
-    fun findAllByStatus(status: String): List<Goal>;
+    fun findByUserIdAndNameContaining(userId: Long, name: String): List<Goal>
 
-    fun findAllBySendReminders(sendReminders: Boolean): List<Goal>;
+    fun findByUserIdAndStatus(userId: Long, status: String): List<Goal>
+
+    fun findByUserIdAndSendReminders(userId: Long, sendReminders: Boolean): List<Goal>
 }

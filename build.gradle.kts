@@ -30,6 +30,9 @@ dependencies {
     implementation("com.h2database:h2")
     implementation("org.postgresql:postgresql")
 
+    // Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
     // Migrations
     implementation("org.liquibase:liquibase-core:4.29.1")
 
@@ -44,7 +47,8 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        //freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll("-Xjsr305=ignore")
     }
 }
 

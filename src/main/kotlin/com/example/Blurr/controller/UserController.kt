@@ -8,30 +8,33 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpStatus
 
 @RestController
 @RequestMapping("/api/users")
-class UserController {
+class UserController(
+    private val userService: UserService
+) {
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long): ResponseEntity<UserResponseDto> {
-
+        return ResponseEntity.ok(userService.getById(id));
     }
 
     @PostMapping("/register")
     fun register(@RequestBody dto: UserRegisterDto): ResponseEntity<UserResponseDto> {
-
+        return ResponseEntity(userService.register(dto), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}/update")
+    @PatchMapping("/{id}")
     fun update(
         @PathVariable id: Long,
         @RequestBody updateDto: UserUpdateDto
     ): ResponseEntity<UserResponseDto> {
-        
+        return ResponseEntity.ok(userService.update(id, updateDto));
     }
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable id: Long) {
-
+    fun deleteById(@PathVariable id: Long): ResponseEntity<Unit> {
+        return ResponseEntity(userService.deleteById(id), HttpStatus.NO_CONTENT);
     }
 }
