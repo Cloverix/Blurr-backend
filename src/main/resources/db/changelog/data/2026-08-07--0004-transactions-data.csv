@@ -1,3 +1,0 @@
-wallet_id,goal_id,type,category,amount,currency,description,created_at,updated_at
-1,1,income,goal,250,RUB,first transaction,2026-08-07 19:13:00,NULL
-2,NULL,expense,food,5000,RUB,NULL,2026-08-01 12:37:46,NULL
