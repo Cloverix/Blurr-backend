@@ -1,5 +1,8 @@
-import UserResponseDto
+package com.example.Blurr.util
+
 import org.hibernate.Hibernate
+import com.example.Blurr.entity.User
+import com.example.Blurr.dto.user.UserResponseDto
 
 object UserMapper {
     fun toDto(user: User): UserResponseDto {

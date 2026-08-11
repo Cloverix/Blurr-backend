@@ -1,3 +1,5 @@
+package com.example.Blurr.entity
+
 import jakarta.persistence.*
 
 @Entity

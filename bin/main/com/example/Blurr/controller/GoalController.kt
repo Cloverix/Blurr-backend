@@ -1,3 +1,5 @@
+package com.example.Blurr.controller
+
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -9,6 +11,10 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
+import com.example.Blurr.service.GoalService
+import com.example.Blurr.dto.goal.GoalResponseDto
+import com.example.Blurr.dto.goal.GoalCreateDto
+import com.example.Blurr.dto.goal.GoalUpdateDto
 
 @RestController
 @RequestMapping("/api/goals")

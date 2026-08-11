@@ -1,6 +1,22 @@
+package com.example.Blurr.service.impl
+
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import com.example.Blurr.repository.WalletRepository
+import com.example.Blurr.repository.GoalRepository
+import com.example.Blurr.repository.TransactionRepository
+import com.example.Blurr.service.TransactionService
+import com.example.Blurr.dto.transaction.TransactionResponseDto
+import com.example.Blurr.dto.transaction.TransactionCreateDto
+import com.example.Blurr.dto.transaction.TransactionUpdateDto
+import com.example.Blurr.exception.transaction.TransactionNotFoundException
+import com.example.Blurr.exception.wallet.WalletNotFoundException
+import com.example.Blurr.exception.goal.GoalNotFoundException
+import com.example.Blurr.util.TransactionMapper
+import com.example.Blurr.entity.Transaction
+import com.example.Blurr.entity.Wallet
+import com.example.Blurr.entity.Goal
 
 @Service
 @Transactional
@@ -18,25 +34,25 @@ class TransactionServiceImpl(
 
     @Transactional(readOnly = true)
     override fun getByWalletId(walletId: Long): List<TransactionResponseDto> {
-        val transactions = transactionRepository.findByWalletId(walletId);
+        val transactions: List<Transaction> = transactionRepository.findByWalletId(walletId);
 
         return transactions.map { TransactionMapper.toDto(it) };
     }
 
     override fun getByGoalId(goalId: Long): List<TransactionResponseDto> {
-        val transactions = transactionRepository.findByGoalId(goalId);
+        val transactions: List<Transaction> = transactionRepository.findByGoalId(goalId);
 
         return transactions.map { TransactionMapper.toDto(it) };
     }
 
     override fun getByType(walletId: Long, type: String): List<TransactionResponseDto> {
-        val transactions = transactionRepository.findByWalletIdAndType(walletId, type);
+        val transactions: List<Transaction> = transactionRepository.findByWalletIdAndType(walletId, type);
 
         return transactions.map { TransactionMapper.toDto(it) };
     }
 
     override fun getByCategory(walletId: Long, category: String): List<TransactionResponseDto> {
-        val transactions = transactionRepository.findByWalletIdAndCategory(walletId, category);
+        val transactions: List<Transaction> = transactionRepository.findByWalletIdAndCategory(walletId, category);
 
         return transactions.map { TransactionMapper.toDto(it) };
     }
@@ -46,7 +62,7 @@ class TransactionServiceImpl(
         from: LocalDateTime,
         to: LocalDateTime
     ): List<TransactionResponseDto> {
-        val transactions = transactionRepository.findByTimePeriod(walletId, from, to);
+        val transactions: List<Transaction> = transactionRepository.findByTimePeriod(walletId, from, to);
 
         return transactions.map { TransactionMapper.toDto(it) };
     }
@@ -72,7 +88,7 @@ class TransactionServiceImpl(
     }
 
     override fun update(id: Long, updateDto: TransactionUpdateDto): TransactionResponseDto? {
-        val transaction = transactionRepository.findById(id).orElseThrow { TransactionNotFoundException() };
+        val transaction: Transaction = transactionRepository.findById(id).orElseThrow { TransactionNotFoundException() };
 
         updateDto.type?.let { transaction.type = it };
         updateDto.category?.let { transaction.category = it };

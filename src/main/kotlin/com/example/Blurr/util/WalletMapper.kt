@@ -1,3 +1,8 @@
+package com.example.Blurr.util
+
+import com.example.Blurr.entity.Wallet
+import com.example.Blurr.dto.wallet.WalletResponseDto
+
 object WalletMapper {
     fun toDto(wallet: Wallet): WalletResponseDto {
         val userId: Long = wallet.user.id;

@@ -1,3 +1,5 @@
+package com.example.Blurr.dto.user
+
 data class UserResponseDto (
     val id: Long,
     val email: String,

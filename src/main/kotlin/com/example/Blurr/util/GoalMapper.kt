@@ -1,3 +1,8 @@
+package com.example.Blurr.util
+
+import com.example.Blurr.entity.Goal
+import com.example.Blurr.dto.goal.GoalResponseDto
+
 object GoalMapper {
     fun toDto(goal: Goal): GoalResponseDto {
         val userId: Long = goal.user.id;

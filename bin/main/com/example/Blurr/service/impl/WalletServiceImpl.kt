@@ -1,5 +1,17 @@
+package com.example.Blurr.service.impl
+
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.example.Blurr.repository.UserRepository
+import com.example.Blurr.repository.WalletRepository
+import com.example.Blurr.service.WalletService
+import com.example.Blurr.dto.wallet.WalletResponseDto
+import com.example.Blurr.dto.wallet.WalletCreateDto
+import com.example.Blurr.dto.wallet.WalletUpdateDto
+import com.example.Blurr.exception.wallet.WalletNotFoundException
+import com.example.Blurr.exception.user.UserNotFoundException
+import com.example.Blurr.util.WalletMapper
+import com.example.Blurr.entity.Wallet
 
 @Service
 @Transactional
@@ -23,7 +35,7 @@ class WalletServiceImpl(
 
     @Transactional(readOnly = true)
     override fun getByNameIncluding(userId: Long, nameIncluding: String): List<WalletResponseDto> {
-        val wallets = walletRepository.findByUserIdAndNameContaining(userId, nameIncluding);
+        val wallets: List<Wallet> = walletRepository.findByUserIdAndNameContaining(userId, nameIncluding);
 
         return wallets.map { WalletMapper.toDto(it) };
     }
@@ -42,7 +54,7 @@ class WalletServiceImpl(
     }
 
     override fun update(id: Long, updateDto: WalletUpdateDto): WalletResponseDto {
-        val wallet = walletRepository.findById(id).orElseThrow { WalletNotFoundException() };
+        val wallet: Wallet = walletRepository.findById(id).orElseThrow { WalletNotFoundException() };
 
         updateDto.name?.let { wallet.name = it };
         updateDto.defaultCurrency?.let { wallet.defaultCurrency = it };

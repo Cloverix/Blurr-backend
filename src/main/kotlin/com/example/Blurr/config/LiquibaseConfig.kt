@@ -10,11 +10,6 @@ import javax.sql.DataSource
 
 @Configuration
 class LiquibaseConfig {
-
-    init {
-        println(">>> LiquibaseConfig bean initialized!")
-    }
-
     @Bean
     fun liquibase(dataSource: DataSource): Liquibase {
         val connection = dataSource.connection

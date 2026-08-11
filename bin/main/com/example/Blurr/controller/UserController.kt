@@ -1,3 +1,5 @@
+package com.example.Blurr.controller
+
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -9,6 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
+import com.example.Blurr.service.UserService
+import com.example.Blurr.dto.user.UserResponseDto
+import com.example.Blurr.dto.user.UserRegisterDto
+import com.example.Blurr.dto.user.UserUpdateDto
 
 @RestController
 @RequestMapping("/api/users")

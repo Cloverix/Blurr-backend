@@ -1,5 +1,17 @@
+package com.example.Blurr.service.impl
+
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.example.Blurr.repository.UserRepository
+import com.example.Blurr.repository.GoalRepository
+import com.example.Blurr.dto.goal.GoalResponseDto
+import com.example.Blurr.dto.goal.GoalCreateDto
+import com.example.Blurr.dto.goal.GoalUpdateDto
+import com.example.Blurr.util.GoalMapper
+import com.example.Blurr.service.GoalService
+import com.example.Blurr.exception.goal.GoalNotFoundException
+import com.example.Blurr.exception.user.UserNotFoundException
+import com.example.Blurr.entity.Goal
 
 @Service
 @Transactional
@@ -15,25 +27,25 @@ class GoalServiceImpl(
     }
 
     override fun getByUserId(userId: Long): List<GoalResponseDto> {
-        val goals = goalRepository.findByUserId(userId);
+        val goals: List<Goal> = goalRepository.findByUserId(userId);
 
         return goals.map { GoalMapper.toDto(it) };
     }
 
     override fun getByNameIncluding(userId: Long, nameIncluding: String): List<GoalResponseDto> {
-        val goals = goalRepository.findByUserIdAndNameContaining(userId, nameIncluding);
+        val goals: List<Goal> = goalRepository.findByUserIdAndNameContaining(userId, nameIncluding);
 
         return goals.map { GoalMapper.toDto(it) };
     }
 
     override fun getByStatus(userId: Long, status: String): List<GoalResponseDto> {
-        val goals = goalRepository.findByUserIdAndStatus(userId, status);
+        val goals: List<Goal> = goalRepository.findByUserIdAndStatus(userId, status);
 
         return goals.map { GoalMapper.toDto(it) };
     }
 
     override fun getSendReminders(userId: Long): List<GoalResponseDto> {
-        val goals = goalRepository.findByUserIdAndSendReminders(userId, true);
+        val goals: List<Goal> = goalRepository.findByUserIdAndSendReminders(userId, true);
 
         return goals.map { GoalMapper.toDto(it) };
     }
@@ -58,7 +70,7 @@ class GoalServiceImpl(
     }
 
     override fun update(id: Long, updateDto: GoalUpdateDto): GoalResponseDto {
-        val goal = goalRepository.findById(id).orElseThrow { GoalNotFoundException() };
+        val goal: Goal = goalRepository.findById(id).orElseThrow { GoalNotFoundException() };
 
         updateDto.name?.let { goal.name = it };
         updateDto.description?.let { goal.description = it };

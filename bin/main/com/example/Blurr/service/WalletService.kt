@@ -1,3 +1,9 @@
+package com.example.Blurr.service
+
+import com.example.Blurr.dto.wallet.WalletResponseDto
+import com.example.Blurr.dto.wallet.WalletCreateDto
+import com.example.Blurr.dto.wallet.WalletUpdateDto
+
 interface WalletService {
     fun getById(id: Long): WalletResponseDto
 

@@ -1,3 +1,5 @@
+package com.example.Blurr.entity
+
 import jakarta.persistence.*
 import java.time.LocalTime
 import java.time.LocalDateTime

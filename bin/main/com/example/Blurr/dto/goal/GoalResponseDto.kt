@@ -1,3 +1,5 @@
+package com.example.Blurr.dto.goal
+
 import java.math.BigDecimal
 import java.time.LocalTime
 import java.time.LocalDateTime

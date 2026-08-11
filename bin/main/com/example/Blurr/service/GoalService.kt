@@ -1,3 +1,9 @@
+package com.example.Blurr.service
+
+import com.example.Blurr.dto.goal.GoalResponseDto
+import com.example.Blurr.dto.goal.GoalCreateDto
+import com.example.Blurr.dto.goal.GoalUpdateDto
+
 interface GoalService {
     fun getById(id: Long): GoalResponseDto;
 

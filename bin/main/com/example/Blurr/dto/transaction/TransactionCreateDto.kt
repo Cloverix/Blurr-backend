@@ -1,3 +1,5 @@
+package com.example.Blurr.dto.transaction
+
 import java.math.BigDecimal
 import java.time.LocalDateTime
 

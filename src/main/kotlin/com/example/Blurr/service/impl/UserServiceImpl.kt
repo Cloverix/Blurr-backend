@@ -1,6 +1,17 @@
+package com.example.Blurr.service.impl
+
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.stereotype.Service
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.Blurr.repository.UserRepository
+import com.example.Blurr.service.UserService
+import com.example.Blurr.dto.user.UserResponseDto
+import com.example.Blurr.dto.user.UserRegisterDto
+import com.example.Blurr.dto.user.UserUpdateDto
+import com.example.Blurr.entity.User
+import com.example.Blurr.util.UserMapper
+import com.example.Blurr.exception.user.UserNotFoundException
+import com.example.Blurr.exception.user.UserAlreadyRegisteredException
 
 @Service
 @Transactional
@@ -32,7 +43,7 @@ class UserServiceImpl(
     }
 
     override fun update(id: Long, updateDto: UserUpdateDto): UserResponseDto {
-        val user = userRepository.findById(id).orElseThrow { UserNotFoundException() }
+        val user: User = userRepository.findById(id).orElseThrow { UserNotFoundException() }
 
         updateDto.email?.let { user.email = it }
         updateDto.password?.let { user.password = passwordEncoder.encode(it)!! }
