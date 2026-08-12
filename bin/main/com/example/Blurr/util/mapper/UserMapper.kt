@@ -1,4 +1,4 @@
-package com.example.Blurr.util
+package com.example.Blurr.util.mapper
 
 import org.hibernate.Hibernate
 import com.example.Blurr.entity.User

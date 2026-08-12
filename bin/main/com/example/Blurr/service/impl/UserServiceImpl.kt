@@ -9,20 +9,22 @@ import com.example.Blurr.dto.user.UserResponseDto
 import com.example.Blurr.dto.user.UserRegisterDto
 import com.example.Blurr.dto.user.UserUpdateDto
 import com.example.Blurr.entity.User
-import com.example.Blurr.util.UserMapper
+import com.example.Blurr.util.mapper.UserMapper
 import com.example.Blurr.exception.user.UserNotFoundException
 import com.example.Blurr.exception.user.UserAlreadyRegisteredException
+import com.example.Blurr.service.ValidationService
 
 @Service
 @Transactional
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val validator: ValidationService
 ): UserService {
     @Transactional(readOnly = true)
     override fun getById(id: Long): UserResponseDto { 
-        val user: User = userRepository.findById(id).orElseThrow { UserNotFoundException() };
-        return UserMapper.toDto(user);
+        val user: User = userRepository.findById(id).orElseThrow { UserNotFoundException() }
+        return UserMapper.toDto(user)
     }
 
     override fun register(dto: UserRegisterDto): UserResponseDto {
@@ -38,6 +40,8 @@ class UserServiceImpl(
             email = dto.email,
             password = encodedPassword
         )
+        
+        validator.validateUser(user)
 
         return UserMapper.toDto(userRepository.save(user))
     }
@@ -47,11 +51,13 @@ class UserServiceImpl(
 
         updateDto.email?.let { user.email = it }
         updateDto.password?.let { user.password = passwordEncoder.encode(it)!! }
+        
+        validator.validateUser(user)
 
         return UserMapper.toDto(userRepository.save(user))
     }
 
     override fun deleteById(id: Long) {
-        userRepository.deleteById(id);
+        userRepository.deleteById(id)
     }
 }

@@ -10,59 +10,65 @@ import com.example.Blurr.dto.wallet.WalletCreateDto
 import com.example.Blurr.dto.wallet.WalletUpdateDto
 import com.example.Blurr.exception.wallet.WalletNotFoundException
 import com.example.Blurr.exception.user.UserNotFoundException
-import com.example.Blurr.util.WalletMapper
+import com.example.Blurr.util.mapper.WalletMapper
 import com.example.Blurr.entity.Wallet
+import com.example.Blurr.service.ValidationService
 
 @Service
 @Transactional
 class WalletServiceImpl(
     private val userRepository: UserRepository,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val validator: ValidationService
 ): WalletService {
     @Transactional(readOnly = true)
     override fun getById(id: Long): WalletResponseDto {
-        val wallet = walletRepository.findById(id).orElseThrow { WalletNotFoundException() };
+        val wallet = walletRepository.findById(id).orElseThrow { WalletNotFoundException() }
 
-        return WalletMapper.toDto(wallet);
+        return WalletMapper.toDto(wallet)
     }
 
     @Transactional(readOnly = true)
     override fun getByUserId(userId: Long): List<WalletResponseDto> {
-        val wallets: List<Wallet> = walletRepository.findByUserId(userId);
+        val wallets: List<Wallet> = walletRepository.findByUserId(userId)
 
-        return wallets.map { WalletMapper.toDto(it) };
+        return wallets.map { WalletMapper.toDto(it) }
     }
 
     @Transactional(readOnly = true)
     override fun getByNameIncluding(userId: Long, nameIncluding: String): List<WalletResponseDto> {
-        val wallets: List<Wallet> = walletRepository.findByUserIdAndNameContaining(userId, nameIncluding);
+        val wallets: List<Wallet> = walletRepository.findByUserIdAndNameContaining(userId, nameIncluding)
 
-        return wallets.map { WalletMapper.toDto(it) };
+        return wallets.map { WalletMapper.toDto(it) }
     }
 
     override fun post(dto: WalletCreateDto): WalletResponseDto {
-        val user = userRepository.findById(dto.userId).orElseThrow { UserNotFoundException() };
+        val user = userRepository.findById(dto.userId).orElseThrow { UserNotFoundException() }
         
         val wallet = Wallet(
             id = 0,
             user = user,
             name = dto.name,
             defaultCurrency = dto.defaultCurrency
-        );
+        )
+        
+        validator.validateWallet(wallet)
 
-        return WalletMapper.toDto(walletRepository.save(wallet));
+        return WalletMapper.toDto(walletRepository.save(wallet))
     }
 
     override fun update(id: Long, updateDto: WalletUpdateDto): WalletResponseDto {
-        val wallet: Wallet = walletRepository.findById(id).orElseThrow { WalletNotFoundException() };
+        val wallet: Wallet = walletRepository.findById(id).orElseThrow { WalletNotFoundException() }
 
-        updateDto.name?.let { wallet.name = it };
-        updateDto.defaultCurrency?.let { wallet.defaultCurrency = it };
+        updateDto.name?.let { wallet.name = it }
+        updateDto.defaultCurrency?.let { wallet.defaultCurrency = it }
+        
+        validator.validateWallet(wallet)
 
-        return WalletMapper.toDto(walletRepository.save(wallet));
+        return WalletMapper.toDto(walletRepository.save(wallet))
     }
 
     override fun deleteById(id: Long) {
-        walletRepository.deleteById(id);
+        walletRepository.deleteById(id)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.Blurr.util
+package com.example.Blurr.util.mapper
 
 import com.example.Blurr.entity.Transaction
 import com.example.Blurr.dto.transaction.TransactionResponseDto
